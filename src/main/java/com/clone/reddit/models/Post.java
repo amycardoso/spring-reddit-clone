@@ -1,4 +1,4 @@
-package com.clone.reddit.domain;
+package com.clone.reddit.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +8,8 @@ import org.springframework.lang.Nullable;
  
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import java.io.Serializable;
 import java.time.Instant;
  
 import static javax.persistence.FetchType.LAZY;
@@ -18,9 +20,11 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Post implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
     @Id
-    @GeneratedValue(strategy = SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
     @NotBlank(message = "Post Name cannot be empty or Null")
     private String postName;

@@ -1,4 +1,4 @@
-package com.clone.reddit.domain;
+package com.clone.reddit.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
  
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+
+import java.io.Serializable;
 import java.time.Instant;
  
 import static javax.persistence.FetchType.LAZY;
@@ -17,9 +19,11 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = SEQUENCE)
+public class Comment implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
     private String text;

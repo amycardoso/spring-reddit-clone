@@ -1,12 +1,14 @@
-package com.clone.reddit.domain;
+package com.clone.reddit.models;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,10 +22,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "token")
-public class VerificationToken {
+public class VerificationToken implements Serializable{
+	private static final long serialVersionUID = 1L;
  
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String token;
     @OneToOne(fetch = LAZY)
