@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clone.reddit.dto.AuthenticationResponse;
+import com.clone.reddit.dto.LoginRequest;
 import com.clone.reddit.dto.RegisterRequest;
 import com.clone.reddit.service.AuthService;
 
@@ -19,13 +21,18 @@ public class AuthController {
 	
 	@Autowired
     AuthService authService;
- 
+	
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody RegisterRequest registerRequest) {
+	public ResponseEntity signup(@RequestBody RegisterRequest registerRequest) {
         authService.signup(registerRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+ 
+    @PostMapping("/login")
+    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
+    }
+ 
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
         authService.verifyAccount(token);
