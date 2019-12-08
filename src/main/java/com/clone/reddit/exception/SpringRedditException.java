@@ -1,9 +1,12 @@
 package com.clone.reddit.exception;
 
-public class SpringRedditException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-	public SpringRedditException(String message) {
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
+@ResponseStatus(INTERNAL_SERVER_ERROR)
+public class SpringRedditException extends RuntimeException {
+    public SpringRedditException(String message) {
         super(message);
     }
 }

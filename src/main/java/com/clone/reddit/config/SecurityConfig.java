@@ -2,6 +2,7 @@ package com.clone.reddit.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,11 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/api/auth/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+        			.authorizeRequests()
+        			.antMatchers("/api/auth/**")
+        			.permitAll()
+        			.antMatchers(HttpMethod.GET, "/api/subreddit")
+        			.permitAll()
+        			.anyRequest()
+        			.authenticated();
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
  
@@ -49,6 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+		return new BCryptPasswordEncoder();
+	}
 }
