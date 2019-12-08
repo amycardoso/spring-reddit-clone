@@ -1,4 +1,6 @@
-package com.clone.reddit.config;
+package com.clone.reddit.security;
+
+import static io.jsonwebtoken.Jwts.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,6 +8,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.clone.reddit.exception.SpringRedditException;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
  
 @Service
@@ -28,8 +32,8 @@ public class JwtProvider {
     public void init() {
         try {
             keyStore = KeyStore.getInstance("JKS");
-            InputStream resourceAsStream = getClass().getResourceAsStream("/reddit-clone.jks");
-            keyStore.load(resourceAsStream, "reddit".toCharArray());
+            InputStream resourceAsStream = getClass().getResourceAsStream("/springblog.jks");
+            keyStore.load(resourceAsStream, "secret".toCharArray());
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
             throw new SpringRedditException("Exception occurred while loading keystore");
         }
@@ -46,9 +50,31 @@ public class JwtProvider {
  
     private PrivateKey getPrivateKey() {
         try {
-            return (PrivateKey) keyStore.getKey("reddit-clone", "reddit".toCharArray());
+            return (PrivateKey) keyStore.getKey("springblog", "secret".toCharArray());
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
             throw new SpringRedditException("Exception occured while retrieving public key from keystore");
         }
+    }
+ 
+    public boolean validateToken(String jwt) {
+        parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
+        return true;
+    }
+ 
+    private PublicKey getPublickey() {
+        try {
+            return keyStore.getCertificate("springblog").getPublicKey();
+        } catch (KeyStoreException e) {
+            throw new SpringRedditException("Exception occured while retrieving public key from keystore");
+        }
+    }
+ 
+    public String getUsernameFromJWT(String token) {
+        Claims claims = parser()
+                .setSigningKey(getPublickey())
+                .parseClaimsJws(token)
+                .getBody();
+ 
+        return claims.getSubject();
     }
 }

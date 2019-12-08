@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.clone.reddit.config.JwtProvider;
 import com.clone.reddit.dto.AuthenticationResponse;
 import com.clone.reddit.dto.LoginRequest;
 import com.clone.reddit.dto.RegisterRequest;
@@ -25,6 +24,7 @@ import com.clone.reddit.models.User;
 import com.clone.reddit.models.VerificationToken;
 import com.clone.reddit.repository.UserRepository;
 import com.clone.reddit.repository.VerificationTokenRepository;
+import com.clone.reddit.security.JwtProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
