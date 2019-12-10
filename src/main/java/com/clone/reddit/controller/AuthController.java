@@ -20,10 +20,10 @@ import com.clone.reddit.service.AuthService;
 public class AuthController {
 	
 	@Autowired
-    AuthService authService;
+    private AuthService authService;
 	
     @PostMapping("/signup")
-	public ResponseEntity signup(@RequestBody RegisterRequest registerRequest) {
+	public ResponseEntity<Object> signup(@RequestBody RegisterRequest registerRequest) {
         authService.signup(registerRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }

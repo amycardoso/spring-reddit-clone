@@ -1,7 +1,6 @@
 package com.clone.reddit.models;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
 

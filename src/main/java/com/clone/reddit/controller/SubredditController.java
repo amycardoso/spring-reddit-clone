@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +21,9 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/subreddit")
 @AllArgsConstructor
 public class SubredditController {
- 
-    private final SubredditService subredditService;
+	
+	@Autowired
+    private SubredditService subredditService;
  
     @GetMapping
     public List<SubredditDto> getAllSubreddits() {

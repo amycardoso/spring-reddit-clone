@@ -6,7 +6,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ResponseStatus(BAD_REQUEST)
 public class SubredditNotFoundException extends RuntimeException {
-    public SubredditNotFoundException(String message) {
+	private static final long serialVersionUID = 1L;
+
+	public SubredditNotFoundException(String message) {
         super(message);
     }
 }

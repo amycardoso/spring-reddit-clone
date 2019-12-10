@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,13 +30,19 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AuthService {
- 
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-    private final VerificationTokenRepository verificationTokenRepository;
-    private final MailService mailService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtProvider jwtProvider;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
+	@Autowired
+    private UserRepository userRepository;
+	@Autowired
+	private VerificationTokenRepository verificationTokenRepository;
+	@Autowired
+	private MailService mailService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private JwtProvider jwtProvider;
  
     @Transactional
     public void signup(RegisterRequest registerRequest) {

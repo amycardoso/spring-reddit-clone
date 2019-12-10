@@ -1,19 +1,25 @@
 package com.clone.reddit.models;
 
+import static javax.persistence.FetchType.LAZY;
+
+import java.io.Serializable;
+import java.time.Instant;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.lang.Nullable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
- 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
-import java.io.Serializable;
-import java.time.Instant;
- 
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.SEQUENCE;
  
 @Data
 @Entity

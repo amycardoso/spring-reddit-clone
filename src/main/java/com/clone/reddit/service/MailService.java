@@ -16,10 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 class MailService {
+	
 	@Autowired
-    JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 	@Autowired
-    MailContentBuilder mailContentBuilder;
+    private MailContentBuilder mailContentBuilder;
  
 	@Async
     void sendMail(NotificationEmail notificationEmail) {

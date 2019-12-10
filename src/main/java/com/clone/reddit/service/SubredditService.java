@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +19,11 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class SubredditService {
- 
-    private final SubredditRepository subredditRepository;
-    private final AuthService authService;
+	
+	@Autowired
+    private SubredditRepository subredditRepository;
+	@Autowired
+    private AuthService authService;
  
     @Transactional(readOnly = true)
     public List<SubredditDto> getAll() {
