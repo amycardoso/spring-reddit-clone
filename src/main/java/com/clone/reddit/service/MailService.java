@@ -17,10 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class MailService {
 	
-	@Autowired
-    private JavaMailSender mailSender;
-	@Autowired
-    private MailContentBuilder mailContentBuilder;
+	@Autowired private JavaMailSender mailSender;
+	//@Autowired private MailContentBuilder mailContentBuilder;
  
 	@Async
     void sendMail(NotificationEmail notificationEmail) {
@@ -29,7 +27,8 @@ class MailService {
             messageHelper.setFrom("springreddit@email.com");
             messageHelper.setTo(notificationEmail.getRecipient());
             messageHelper.setSubject(notificationEmail.getSubject());
-            messageHelper.setText(mailContentBuilder.build(notificationEmail.getBody()));
+            //messageHelper.setText(mailContentBuilder.build(notificationEmail.getBody()));
+            messageHelper.setText(notificationEmail.getBody());        
         };
         try {
             mailSender.send(messagePreparator);
