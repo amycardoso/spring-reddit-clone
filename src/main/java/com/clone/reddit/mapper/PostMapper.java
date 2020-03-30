@@ -7,7 +7,6 @@ import com.clone.reddit.models.Subreddit;
 import com.clone.reddit.models.User;
 import com.clone.reddit.repository.CommentRepository;
 import com.github.marlonlom.utilities.timeago.TimeAgo;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;

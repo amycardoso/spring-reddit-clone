@@ -1,5 +1,12 @@
 package com.clone.reddit.service;
 
+import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import com.clone.reddit.dto.PostRequest;
@@ -14,33 +21,32 @@ import com.clone.reddit.repository.PostRepository;
 import com.clone.reddit.repository.SubredditRepository;
 import com.clone.reddit.repository.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import lombok.AllArgsConstructor;
-
 import static java.util.stream.Collectors.toList;
- 
+
 @Service
 @AllArgsConstructor
 @Transactional
 public class PostService {
- 
+
     @Autowired PostRepository postRepository;
     @Autowired SubredditRepository subredditRepository;
     @Autowired UserRepository userRepository;
     @Autowired AuthService authService;
     @Autowired PostMapper postMapper;
- 
+
+    public void save(PostRequest postRequest) {
+        Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
+                .orElseThrow(() -> new SubredditNotFoundException(postRequest.getSubredditName()));
+        postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
+    }
+
     @Transactional(readOnly = true)
     public PostResponse getPost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id.toString()));
         return postMapper.mapToDto(post);
     }
- 
+
     @Transactional(readOnly = true)
     public List<PostResponse> getAllPosts() {
         return postRepository.findAll()
@@ -48,13 +54,7 @@ public class PostService {
                 .map(postMapper::mapToDto)
                 .collect(toList());
     }
- 
-    public void save(PostRequest postRequest) {
-        Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
-                .orElseThrow(() -> new SubredditNotFoundException(postRequest.getSubredditName()));
-        postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
-    }
- 
+
     @Transactional(readOnly = true)
     public List<PostResponse> getPostsBySubreddit(Long subredditId) {
         Subreddit subreddit = subredditRepository.findById(subredditId)
@@ -62,7 +62,7 @@ public class PostService {
         List<Post> posts = postRepository.findAllBySubreddit(subreddit);
         return posts.stream().map(postMapper::mapToDto).collect(toList());
     }
- 
+
     @Transactional(readOnly = true)
     public List<PostResponse> getPostsByUsername(String username) {
         User user = userRepository.findByUsername(username)

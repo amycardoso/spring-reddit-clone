@@ -1,31 +1,24 @@
 package com.clone.reddit.models;
 
-import static javax.persistence.FetchType.LAZY;
-
-import java.io.Serializable;
-import java.time.Instant;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
- 
+
+import javax.persistence.*;
+import java.time.Instant;
+
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "token")
-public class VerificationToken implements Serializable{
-	private static final long serialVersionUID = 1L;
- 
+public class VerificationToken {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String token;
     @OneToOne(fetch = LAZY)

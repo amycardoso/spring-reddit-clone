@@ -1,42 +1,43 @@
 package com.clone.reddit.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import com.clone.reddit.dto.SubredditDto;
 import com.clone.reddit.service.SubredditService;
 
-import lombok.AllArgsConstructor;
- 
 @RestController
 @RequestMapping("/api/subreddit")
 @AllArgsConstructor
+@Slf4j
 public class SubredditController {
-	
-	@Autowired
-    private SubredditService subredditService;
- 
-    @GetMapping
-    public List<SubredditDto> getAllSubreddits() {
-        return subredditService.getAll();
-    }
- 
-    @GetMapping("/{id}")
-    public SubredditDto getSubreddit(@PathVariable Long id) {
-        return subredditService.getSubreddit(id);
-    }
- 
+
+    @Autowired SubredditService subredditService;
+
     @PostMapping
-    public SubredditDto create(@RequestBody @Valid SubredditDto subredditDto) {
-        return subredditService.save(subredditDto);
+    public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto subredditDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(subredditService.save(subredditDto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SubredditDto>> getAllSubreddits() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(subredditService.getAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(subredditService.getSubreddit(id));
     }
 }

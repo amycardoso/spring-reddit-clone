@@ -1,30 +1,24 @@
 package com.clone.reddit.security;
 
-import static io.jsonwebtoken.Jwts.parser;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.time.Instant;
-import java.util.Date;
-
-import javax.annotation.PostConstruct;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 import com.clone.reddit.exception.SpringRedditException;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.*;
+import java.security.cert.CertificateException;
+import java.sql.Date;
+import java.time.Instant;
+
+import static io.jsonwebtoken.Jwts.parser;
 import static java.util.Date.from;
  
 @Service

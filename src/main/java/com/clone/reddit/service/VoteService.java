@@ -1,5 +1,11 @@
 package com.clone.reddit.service;
 
+import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 import com.clone.reddit.dto.VoteDto;
@@ -10,21 +16,16 @@ import com.clone.reddit.models.Vote;
 import com.clone.reddit.repository.PostRepository;
 import com.clone.reddit.repository.VoteRepository;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import lombok.AllArgsConstructor;
-
 import static com.clone.reddit.models.VoteType.UPVOTE;
 
 @Service
 @AllArgsConstructor
 public class VoteService {
- 
-    private final VoteRepository voteRepository;
-    private final PostRepository postRepository;
-    private final AuthService authService;
- 
+
+    @Autowired VoteRepository voteRepository;
+    @Autowired PostRepository postRepository;
+    @Autowired AuthService authService;
+
     @Transactional
     public void vote(VoteDto voteDto) {
         Post post = postRepository.findById(voteDto.getPostId())
@@ -44,7 +45,7 @@ public class VoteService {
         voteRepository.save(mapToVote(voteDto, post));
         postRepository.save(post);
     }
- 
+
     private Vote mapToVote(VoteDto voteDto, Post post) {
         return Vote.builder()
                 .voteType(voteDto.getVoteType())
