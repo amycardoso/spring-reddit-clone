@@ -1,4 +1,4 @@
-package com.challenge;
+package com.reddit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
